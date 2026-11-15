@@ -45,7 +45,9 @@ run linked from each release) and published here by that same pipeline — nobod
 
 `cfai-code` needs a way to reach a model: on first launch (with nothing already configured) it shows a sign-in
 screen for a CFAI account, or run `cfai-code config` to use your own Anthropic key or your own model endpoint.
-See the full user guide in the source repository for configuration, chat commands and troubleshooting.
+See [**GUIDA_UTENTE.md**](GUIDA_UTENTE.md) (Italian) for the full walkthrough: installation, the three ways to
+connect to a model, every setting of `cfai-code config`, the chat commands, non-interactive use with `-p`, where
+files are saved, and common problems.
 
 ## Building from source
 
