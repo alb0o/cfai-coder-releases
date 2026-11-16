@@ -22,6 +22,33 @@ official tests), this version solved **16 out of 16**, at a cost of about 2-3 US
 first signal, not a guarantee: the problems are public, they come with a ready-made test command that your own
 projects may not have, and 16 problems is a small sample. The testing is ongoing and more problems will be added.
 
+Each problem was started from a fresh copy of the project, with no hint of the solution: the agent got the bug
+report and had to change the code until the project's own tests passed. The stronger model only steps in when the small one is stuck
+or its checks keep failing.
+
+| # | Problem | Repository | Result | Models | Cost |
+|---|---|---|---|---|---|
+| 1 | `django-12284` | django | solved | small + stronger | $0.026 |
+| 2 | `django-12286` | django | solved | small only | $0.002 |
+| 3 | `django-13220` | django | solved | small + stronger | $0.014 |
+| 4 | `django-13551` | django | solved | small + stronger | $0.008 |
+| 5 | `django-14238` | django | solved | small + stronger | $0.040 |
+| 6 | `django-15320` | django | solved | small + stronger | $0.054 |
+| 7 | `requests-3362` | psf | solved | small only | $0.006 |
+| 8 | `pytest-5221` | pytest-dev | solved | small + stronger | $0.133 |
+| 9 | `pytest-7168` | pytest-dev | solved | small + stronger | $0.024 |
+| 10 | `sphinx-7975` | sphinx-doc | solved | small + stronger | $0.024 |
+| 11 | `sphinx-8713` | sphinx-doc | solved | small only | $0.002 |
+| 12 | `sympy-11400` | sympy | solved | small + stronger | $0.069 |
+| 13 | `sympy-14774` | sympy | solved | small only | $0.003 |
+| 14 | `sympy-21847` | sympy | solved | small only | $0.002 |
+| 15 | `sympy-22714` | sympy | solved | small only | $0.009 |
+| 16 | `sympy-24152` | sympy | solved | small only | $0.002 |
+| | **16 problems** | | **16 / 16 solved** | | **$0.42 total** |
+
+A separate set of 29 small everyday coding tasks (rename a function, fix a failing test, add a feature, and so on)
+run through the same binary solved 58 of 58 runs with the checking enabled (57 of 58 without it). More results will be added here as the testing grows.
+
 ## Download
 
 See the [Releases](../../releases) page. Each release has one archive per platform:
@@ -56,8 +83,8 @@ warn you the first time you run one:
 - **Linux:** no warning, but the file needs the executable bit (`chmod +x`, above).
 
 This is expected for an unsigned binary from a small project, not a sign that the file was tampered with. Each
-release is built directly from the tagged source by the CI pipeline in the private repository (see the workflow
-run linked from each release) and published here by that same pipeline — nobody uploads these files by hand.
+release is built directly from the tagged source by an automated pipeline in the private repository and
+published here by that same pipeline.
 
 ## First run
 
