@@ -70,9 +70,26 @@ The same menu is reachable from inside the chat with `/config` (or `/settings`).
 | `verify_every` | number from 0 to 1000 | runs the check on its own after this many tool calls since the last one (0: only when the model says it is done) |
 | `verify_tries` | number from 0 to 20 | how many times a failing check is sent back to the model before the stronger one takes over |
 | `escalate_model` | free text | the model that takes over when checks keep failing (`cfai-escalate` on the CFAI service); empty: none |
+| `verify_timeout` | number of seconds (up to 3600) | the longest one run of the check may take before it is stopped (empty: 120); a stopped run does not count as a failed attempt |
+| `verify_fast` | number of seconds (up to 600) | a check that took at most this long runs after every change to a file (empty: 20; 0: only as set by `verify_every`) |
+| `escalate_idle` | number from 0 to 1000 | the stronger model also takes over after this many tool calls without any change to a file (0: never; needs `escalate_model`) |
 | `profile` | `local` · `gateway` | `cfai` only: whether the prompt for the small model is shortened here (`local`) or by the service (`gateway`, needs the service to support it) |
 
 Saved settings act as defaults: an environment variable you already set always wins over them.
+
+### How the check works (version 0.2.0)
+
+When `verify_command` is set, `cfai-code` runs it on its own and tells the model the result, instead of trusting
+"it should work":
+
+- After a change, a quick check runs again after every change; a slow one runs every `verify_every` calls.
+- If the check fails, the model is sent back to fix the code (up to `verify_tries` times). After that, or when it
+  makes no change for `escalate_idle` calls, the model in `escalate_model` takes over.
+- If the model answers "done" while the check is still failing, it is sent back, not let go.
+- Existing test files cannot be edited by the model while a check is configured, and a test command the model
+  tries to run by hand is answered with the result of the check. To allow edits to test files, set the
+  environment variable `CFAI_ALLOW_TEST_EDITS=1`. New test files can always be created.
+- If the work ends with the check still failing, the final answer carries a note saying so.
 
 ## 4. Starting the chat
 
